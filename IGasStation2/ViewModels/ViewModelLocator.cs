@@ -17,9 +17,10 @@ namespace IGasStation2.ViewModels
     {
         private static IConfiguration _configuration;
 
-        private static ServiceProvider _serviceProvider;
+        public static ServiceProvider _serviceProvider;
 
         public ShowDbVM ShowDbVM => _serviceProvider.GetRequiredService<ShowDbVM>();
+        public ShowCardVM ShowCardVM => _serviceProvider.GetRequiredService<ShowCardVM>();
 
         private static void InitConfiguration(IServiceCollection services)
         {
@@ -57,6 +58,9 @@ namespace IGasStation2.ViewModels
             services.AddSingleton<GasStationUtil>();
 
             services.AddSingleton<ShowDbVM>();
+            services.AddSingleton<ShowCardVM>();
+
+            services.AddSingleton<IServiceProvider, ServiceProvider>(_ => _serviceProvider);
 
             _serviceProvider = services.BuildServiceProvider();
         }

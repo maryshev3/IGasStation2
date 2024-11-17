@@ -7,4 +7,15 @@
     <SolidColorBrush x:Key="BackgroundHoveredMain" Color="#addfc5"/>
     <SolidColorBrush x:Key="BorderBrushMain" Color="#4fbe82"/>
     <SolidColorBrush x:Key="BorderBrushSeparator" Color="#a5a9ac"/>
+
+    <Style x:Key="RoundedButton" TargetType="Button">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="5" />
+            </Style>
+        </Style.Resources>
+    </Style>
 </ResourceDictionary>

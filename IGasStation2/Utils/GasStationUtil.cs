@@ -1,4 +1,5 @@
 ﻿using IGasStation2.EntityFrameworkContexts;
+using IGasStation2.Extensions;
 using IGasStation2.Models;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace IGasStation2.Utils
             string name = "",
             string location = "",
             string phoneNumber = "",
+            string email = "",
             string allowedPower = "",
             string currentPower = "",
             string powerDiselGenerator = "",
@@ -46,6 +48,44 @@ namespace IGasStation2.Utils
             _gasStationContext.GasStations.Remove(gasStation);
 
             _gasStationContext.SaveChanges();
+        }
+
+        public void EditGasStation(
+            GasStation gasStation,
+            string name,
+            string location,
+            string coordinates,
+            string phoneNumber,
+            string email,
+            string allowedPower,
+            string currentPower,
+            string powerDiselGenerator,
+            string typeAndPower,
+            string note
+        )
+        {
+            gasStation.Fill(
+                name,
+                location,
+                coordinates,
+                phoneNumber,
+                email,
+                allowedPower,
+                currentPower,
+                powerDiselGenerator,
+                typeAndPower,
+                note
+            );
+
+            _gasStationContext.SaveChanges();
+        }
+
+        public List<GasStationPowerUsing> GetPowerUsings(GasStation gasStation)
+        {
+            return _gasStationContext
+                .GasStationPowerUsings
+                .Where(x => x.GasStation == gasStation)
+                .ToList();
         }
     }
 }

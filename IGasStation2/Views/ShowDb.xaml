@@ -9,18 +9,6 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:ShowDbVM}"
              DataContext="{Binding ShowDbVM, Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5" />
-                </Style>
-            </Style.Resources>
-        </Style>
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -36,8 +24,8 @@
                 <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)" ControlTextBoxText="{Binding Path=CurrentPowerForSearch, Mode=TwoWay}"/>
                 <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForSearch, Mode=TwoWay}"/>
                 <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForSearch, Mode=TwoWay}"/>
-                <Button Content="Поиск" Command="{Binding Path=SearchClick}"/>
-                <Button Content="Очистить все" Command="{Binding Path=ClearClick}"/>
+                <Button Content="Поиск" Command="{Binding Path=SearchClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
+                <Button Content="Очистить все" Command="{Binding Path=ClearClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
             </StackPanel>
         </Expander >
         <Grid Grid.Column="1">
@@ -56,8 +44,8 @@
                 Grid.Row="0"
                 SelectedItem="{Binding Path=SelectedGasStation}"/>
             <WrapPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-                <Button Content="Открыть выбранную запись" IsEnabled="{Binding Path=IsEnabled}"/>
-                <Button Content="Удалить выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=RemoveClick}"/>
+                <Button Name="OpenSelectedGasStation" Content="Открыть выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Click="OpenSelectedGasStation_Click" Style="{DynamicResource ResourceKey=RoundedButton}"/>
+                <Button Content="Удалить выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=RemoveClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
             </WrapPanel>
         </Grid>
     </Grid>

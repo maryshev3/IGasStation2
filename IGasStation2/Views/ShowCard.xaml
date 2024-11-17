@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="IGasStation2.Views.ShowCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGasStation2.Views"
+             xmlns:components="clr-namespace:IGasStation2.Components"
+             xmlns:viewmodels="clr-namespace:IGasStation2.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ShowCardVM}"
+             DataContext="{Binding ShowCardVM, Source={StaticResource ViewModelLocator}}"
+             mc:Ignorable="d">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Запись АЗС">
+                <StackPanel Name="searchStackPanel">
+                    <components:LabelAndTextBox ControlLabelContent="Название компании" ControlTextBoxText="{Binding Path=NameForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Местоположение компании" ControlTextBoxText="{Binding Path=LocationForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Координаты компании" ControlTextBoxText="{Binding Path=CoordinatesForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Номер телефона компании" ControlTextBoxText="{Binding Path=PhoneNumberForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Email" ControlTextBoxText="{Binding Path=EmailForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)" ControlTextBoxText="{Binding Path=AllowedPowerForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)" ControlTextBoxText="{Binding Path=CurrentPowerForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Примечание" ControlTextBoxText="{Binding Path=NoteForEdit, Mode=TwoWay}"/>
+                    <Button Content="Изменить запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=EditClick}"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Энергопотребление АЗС">
+                <StackPanel Orientation="Vertical">
+                    <DataGrid Name="powerUsingDataGrid" ItemsSource="{Binding Path=GasStationPowerUsings}" AutoGenerateColumns="True"/>
+                    <Button Content="Добавить/изменить энергопотребление" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path}"/>
+                    <Button Content="Удалить выбранную запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path}"/>
+                    <Button Content="Спрогнозировать потребление" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path}"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
