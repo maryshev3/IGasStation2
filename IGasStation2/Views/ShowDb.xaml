@@ -21,8 +21,12 @@
             </Style.Resources>
         </Style>
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal">
-        <Expander ExpandDirection="Right" IsExpanded="True" Name="expanderElement">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="0.8*"/>
+        </Grid.ColumnDefinitions>
+        <Expander ExpandDirection="Right" IsExpanded="True" Name="expanderElement" Grid.Column="0">
             <StackPanel Name="searchStackPanel">
                 <components:LabelAndTextBox ControlLabelContent="Название компании" ControlTextBoxText="{Binding Path=NameForSearch, Mode=TwoWay}"/>
                 <components:LabelAndTextBox ControlLabelContent="Местоположение компании" ControlTextBoxText="{Binding Path=LocationForSearch, Mode=TwoWay}"/>
@@ -36,24 +40,25 @@
                 <Button Content="Очистить все" Command="{Binding Path=ClearClick}"/>
             </StackPanel>
         </Expander >
-        <Separator BorderThickness="2" BorderBrush="{DynamicResource BorderBrushSeparator}" Margin="0, 5, 0, 5"/>
-        <ScrollViewer>
-            <StackPanel Orientation="Vertical">
-                <DataGrid 
-                    Name="DbData"
-                    AutoGenerateColumns="True"
-                    ItemsSource="{Binding Path=GasStations}"
-                    Height="500"
-                    Width="300"
-                    ScrollViewer.CanContentScroll="True" 
-                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-                <WrapPanel Orientation="Horizontal">
-                    <Button Content="Добавить запись"/>
-                    <Button Content="Открыть выбранную запись"/>
-                    <Button Content="Удалить выбранную запись"/>
-                </WrapPanel>
-            </StackPanel>
-        </ScrollViewer>
-    </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="0.2*"/>
+            </Grid.RowDefinitions>
+            <DataGrid
+                Name="DbData"
+                AutoGenerateColumns="True"
+                ItemsSource="{Binding Path=GasStations}"
+                Margin="5"
+                ScrollViewer.CanContentScroll="True" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                Grid.Row="0"/>
+            <WrapPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
+                <Button Content="Добавить запись"/>
+                <Button Content="Открыть выбранную запись"/>
+                <Button Content="Удалить выбранную запись"/>
+            </WrapPanel>
+        </Grid>
+    </Grid>
 </UserControl>

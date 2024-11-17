@@ -1,4 +1,5 @@
 ﻿using IGasStation2.EntityFrameworkContexts;
+using IGasStation2.Utils;
 using IGasStation2.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -52,6 +53,8 @@ namespace IGasStation2.ViewModels
             InitConfiguration(services);
 
             AddDbContext(services);
+
+            services.AddSingleton<GasStationUtil>();
 
             services.AddSingleton<ShowDbVM>();
 

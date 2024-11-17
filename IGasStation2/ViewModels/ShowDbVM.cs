@@ -1,6 +1,7 @@
 ﻿using IGasStation2.Commands;
 using IGasStation2.EntityFrameworkContexts;
 using IGasStation2.Models;
+using IGasStation2.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +14,16 @@ namespace IGasStation2.ViewModels
 {
     public class ShowDbVM : ViewModelBase
     {
-        private readonly GasStationContext _gasStationContext;
+        private readonly GasStationUtil _gasStationUtil;
 
-        private string _nameForSearch;
-        private string _locationForSearch;
-        private string _phoneNumberForSearch;
-        private string _emailForSearch;
-        private string _allowedPowerForSearch;
-        private string _currentPowerForSearch;
-        private string _powerDiselGeneratorForSearch;
-        private string _typeAndPowerForSearch;
+        private string _nameForSearch = String.Empty;
+        private string _locationForSearch = String.Empty;
+        private string _phoneNumberForSearch = String.Empty;
+        private string _emailForSearch = String.Empty;
+        private string _allowedPowerForSearch = String.Empty;
+        private string _currentPowerForSearch = String.Empty;
+        private string _powerDiselGeneratorForSearch = String.Empty;
+        private string _typeAndPowerForSearch = String.Empty;
         private IEnumerable<GasStation> _gasStations;
 
         public string NameForSearch 
@@ -71,21 +72,36 @@ namespace IGasStation2.ViewModels
             set => SetProperty(ref _gasStations, value);
         }
 
-        public ShowDbVM(GasStationContext gasStationContext) 
+        public ShowDbVM(GasStationUtil gasStationUtil) 
         {
-            _gasStationContext = gasStationContext;
+            _gasStationUtil = gasStationUtil;
 
             SearchClick = new AsyncCommand(OnSearchClick);
             ClearClick = new AsyncCommand(OnClearClick);
 
-            GasStations = _gasStationContext.GasStations.ToList();
-
-            ;
+            GasStations = _gasStationUtil.GetGasStations(
+                NameForSearch,
+                LocationForSearch,
+                PhoneNumberForSearch,
+                AllowedPowerForSearch,
+                CurrentPowerForSearch,
+                PowerDiselGeneratorForSearch,
+                TypeAndPowerForSearch
+            );
         }
 
         private Task OnSearchClick(object param)
         {
-            MessageBox.Show(NameForSearch);
+            GasStations = _gasStationUtil.GetGasStations(
+                NameForSearch,
+                LocationForSearch,
+                PhoneNumberForSearch,
+                AllowedPowerForSearch,
+                CurrentPowerForSearch,
+                PowerDiselGeneratorForSearch,
+                TypeAndPowerForSearch
+            );
+
             return Task.CompletedTask;
         }
 
