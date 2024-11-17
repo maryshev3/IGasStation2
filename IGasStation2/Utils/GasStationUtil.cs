@@ -87,5 +87,45 @@ namespace IGasStation2.Utils
                 .Where(x => x.GasStation == gasStation)
                 .ToList();
         }
+
+        public void MergePowerUsing(
+            GasStation gasStation,
+            string year,
+            string powerUsing
+        )
+        {
+            int yearConverted = Convert.ToInt32(year);
+            int powerUsingConverted = Convert.ToInt32(powerUsing);
+
+            GasStationPowerUsing? existing = _gasStationContext.GasStationPowerUsings.FirstOrDefault(x =>
+                x.GasStation == gasStation
+                && x.Year == yearConverted
+            );
+
+            if (existing == default)
+            {
+                _gasStationContext.GasStationPowerUsings.Add(
+                    new GasStationPowerUsing()
+                    {
+                        GasStation = gasStation,
+                        Year = yearConverted,
+                        PowerUsing = powerUsingConverted
+                    }
+                );
+            }
+            else
+            {
+                existing.PowerUsing = powerUsingConverted;
+            }
+
+            _gasStationContext.SaveChanges();
+        }
+
+        public void RemovePowerUsing(GasStationPowerUsing gasStationPowerUsing)
+        {
+            _gasStationContext.GasStationPowerUsings.Remove(gasStationPowerUsing);
+
+            _gasStationContext.SaveChanges();
+        }
     }
 }

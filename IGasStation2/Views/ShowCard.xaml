@@ -23,14 +23,20 @@
                     <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForEdit, Mode=TwoWay}"/>
                     <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForEdit, Mode=TwoWay}"/>
                     <components:LabelAndTextBox ControlLabelContent="Примечание" ControlTextBoxText="{Binding Path=NoteForEdit, Mode=TwoWay}"/>
-                    <Button Content="Изменить запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=EditClick}"/>
+                    <Button Content="Изменить запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=EditGasStationClick}"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Энергопотребление АЗС">
                 <StackPanel Orientation="Vertical">
-                    <DataGrid Name="powerUsingDataGrid" ItemsSource="{Binding Path=GasStationPowerUsings}" AutoGenerateColumns="True"/>
-                    <Button Content="Добавить/изменить энергопотребление" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path}"/>
-                    <Button Content="Удалить выбранную запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path}"/>
+                    <DataGrid 
+                        Name="powerUsingDataGrid"
+                        ItemsSource="{Binding Path=GasStationPowerUsings}"
+                        AutoGenerateColumns="True"
+                        SelectedItem="{Binding Path=SelectedGasStationPowerUsing}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Год" ControlTextBoxText="{Binding Path=YearForEdit, Mode=TwoWay}"/>
+                    <components:LabelAndTextBox ControlLabelContent="Потребление" ControlTextBoxText="{Binding Path=PowerUsingForEdit, Mode=TwoWay}"/>
+                    <Button Content="Добавить/изменить энергопотребление" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=MergePowerUsingClick}"/>
+                    <Button Content="Удалить выбранную запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=RemovePowerUsingClick}" IsEnabled="{Binding Path=IsEnabled}"/>
                     <Button Content="Спрогнозировать потребление" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path}"/>
                 </StackPanel>
             </TabItem>

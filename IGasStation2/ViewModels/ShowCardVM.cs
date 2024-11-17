@@ -17,6 +17,7 @@ namespace IGasStation2.ViewModels
 
         private GasStation _gasStation;
         private List<GasStationPowerUsing> _gasStationPowerUsings;
+        private GasStationPowerUsing _selectedGasStationPowerUsing;
 
         private string _nameForEdit = String.Empty;
         private string _locationForEdit = String.Empty;
@@ -28,6 +29,9 @@ namespace IGasStation2.ViewModels
         private string _powerDiselGeneratorForEdit = String.Empty;
         private string _typeAndPowerForEdit = String.Empty;
         private string _noteForEdit = String.Empty;
+
+        private string _yearForEdit = String.Empty;
+        private string _powerUsingForEdit = String.Empty;
 
         public string NameForEdit
         {
@@ -79,6 +83,16 @@ namespace IGasStation2.ViewModels
             get => _noteForEdit;
             set => SetProperty(ref _noteForEdit, value);
         }
+        public string YearForEdit
+        {
+            get => _yearForEdit;
+            set => SetProperty(ref _yearForEdit, value);
+        }
+        public string PowerUsingForEdit
+        {
+            get => _powerUsingForEdit;
+            set => SetProperty(ref _powerUsingForEdit, value);
+        }
 
         public GasStation GasStation 
         {
@@ -109,14 +123,28 @@ namespace IGasStation2.ViewModels
             }
         }
 
+        public GasStationPowerUsing SelectedGasStationPowerUsing
+        {
+            get => _selectedGasStationPowerUsing;
+            set
+            {
+                SetProperty(ref _selectedGasStationPowerUsing, value);
+                OnPropertyChanged(nameof(IsEnabled));
+            }
+        }
+
+        public bool IsEnabled => SelectedGasStationPowerUsing != null;
+
         public ShowCardVM(GasStationUtil gasStationUtil) 
         {
             _gasStationUtil = gasStationUtil;
 
-            EditClick = new AsyncCommand(OnEditClick);
+            EditGasStationClick = new AsyncCommand(OnEditGasStationClick);
+            MergePowerUsingClick = new AsyncCommand(OnMergePowerUsingClick);
+            RemovePowerUsingClick = new AsyncCommand(OnRemovePowerUsingClick);
         }
 
-        private Task OnEditClick(object param)
+        private Task OnEditGasStationClick(object param)
         {
             try
             {
@@ -142,6 +170,35 @@ namespace IGasStation2.ViewModels
             return Task.CompletedTask;
         }
 
-        public ICommand EditClick { get; }
+        public ICommand EditGasStationClick { get; }
+
+        private Task OnMergePowerUsingClick(object param)
+        {
+            try
+            {
+                _gasStationUtil.MergePowerUsing(GasStation, YearForEdit, PowerUsingForEdit);
+
+                GasStationPowerUsings = _gasStationUtil.GetPowerUsings(_gasStation);
+            }
+            catch
+            {
+                MessageBox.Show("Вы допустили ошибку при заполнении числовых данных");
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public ICommand MergePowerUsingClick { get; }
+
+        private Task OnRemovePowerUsingClick(object param)
+        {
+            _gasStationUtil.RemovePowerUsing(SelectedGasStationPowerUsing);
+
+            GasStationPowerUsings = _gasStationUtil.GetPowerUsings(_gasStation);
+
+            return Task.CompletedTask;
+        }
+
+        public ICommand RemovePowerUsingClick { get; }
     }
 }
