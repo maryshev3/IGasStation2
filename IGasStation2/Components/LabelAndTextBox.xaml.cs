@@ -35,5 +35,16 @@ namespace IGasStation2.Components
             get { return (string)GetValue(ControlLabelContentProperty); }
             set { SetValue(ControlLabelContentProperty, value); }
         }
+
+        public static readonly DependencyProperty ControlTextBoxTextProperty =
+        DependencyProperty.Register("ControlTextBoxText",
+                                    typeof(string),
+                                    typeof(LabelAndTextBox));
+
+        public string ControlTextBoxText
+        {
+            get { return (string)GetValue(ControlTextBoxTextProperty); }
+            set { SetValue(ControlTextBoxTextProperty, value); }
+        }
     }
 }

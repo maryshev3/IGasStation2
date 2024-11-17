@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IGasStation2.Views"
              xmlns:components="clr-namespace:IGasStation2.Components"
+             xmlns:viewmodels="clr-namespace:IGasStation2.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ShowDbVM}"
+             DataContext="{Binding ShowDbVM, Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="Button">
@@ -19,26 +22,38 @@
         </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
-        <StackPanel>
-            <components:LabelAndTextBox ControlLabelContent="Название компании"/>
-            <components:LabelAndTextBox ControlLabelContent="Местоположение компании"/>
-            <components:LabelAndTextBox ControlLabelContent="Номер телефона компании"/>
-            <components:LabelAndTextBox ControlLabelContent="Email"/>
-            <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)"/>
-            <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)"/>
-            <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)"/>
-            <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника"/>
-            <Button Content="Поиск"/>
-            <Button Content="Очистить все"/>
-        </StackPanel>
-        <Separator BorderThickness="2" BorderBrush="{DynamicResource BorderBrushSeparator}" Margin="0, 5, 0, 5"/>
-        <StackPanel Orientation="Vertical">
-            <DataGrid Name="DbData" AutoGenerateColumns="True"/>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Добавить запись"/>
-                <Button Content="Открыть выбранную запись"/>
-                <Button Content="Удалить выбранную запись"/>
+        <Expander ExpandDirection="Right" IsExpanded="True" Name="expanderElement">
+            <StackPanel Name="searchStackPanel">
+                <components:LabelAndTextBox ControlLabelContent="Название компании" ControlTextBoxText="{Binding Path=NameForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Местоположение компании" ControlTextBoxText="{Binding Path=LocationForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Номер телефона компании" ControlTextBoxText="{Binding Path=PhoneNumberForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Email" ControlTextBoxText="{Binding Path=EmailForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)" ControlTextBoxText="{Binding Path=AllowedPowerForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)" ControlTextBoxText="{Binding Path=CurrentPowerForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForSearch, Mode=TwoWay}"/>
+                <Button Content="Поиск" Command="{Binding Path=SearchClick}"/>
+                <Button Content="Очистить все" Command="{Binding Path=ClearClick}"/>
             </StackPanel>
-        </StackPanel>
+        </Expander >
+        <Separator BorderThickness="2" BorderBrush="{DynamicResource BorderBrushSeparator}" Margin="0, 5, 0, 5"/>
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical">
+                <DataGrid 
+                    Name="DbData"
+                    AutoGenerateColumns="True"
+                    ItemsSource="{Binding Path=GasStations}"
+                    Height="500"
+                    Width="300"
+                    ScrollViewer.CanContentScroll="True" 
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Добавить запись"/>
+                    <Button Content="Открыть выбранную запись"/>
+                    <Button Content="Удалить выбранную запись"/>
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
     </StackPanel>
 </UserControl>
