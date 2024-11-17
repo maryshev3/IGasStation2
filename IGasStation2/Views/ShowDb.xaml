@@ -53,11 +53,11 @@
                 ScrollViewer.CanContentScroll="True" 
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                Grid.Row="0"/>
+                Grid.Row="0"
+                SelectedItem="{Binding Path=SelectedGasStation}"/>
             <WrapPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-                <Button Content="Добавить запись"/>
-                <Button Content="Открыть выбранную запись"/>
-                <Button Content="Удалить выбранную запись"/>
+                <Button Content="Открыть выбранную запись" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Button Content="Удалить выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=RemoveClick}"/>
             </WrapPanel>
         </Grid>
     </Grid>

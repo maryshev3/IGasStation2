@@ -17,7 +17,7 @@ namespace IGasStation2.Utils
             _gasStationContext = gasStationContext;
         }
 
-        public IEnumerable<GasStation> GetGasStations(
+        public List<GasStation> GetGasStations(
             string name = "",
             string location = "",
             string phoneNumber = "",
@@ -39,6 +39,13 @@ namespace IGasStation2.Utils
                     && (String.IsNullOrWhiteSpace(typeAndPower) ? true : x.TypeAndPower != default && x.TypeAndPower.Contains(typeAndPower))
                 )
             .ToList();
+        }
+
+        public void RemoveGasStation(GasStation gasStation)
+        {
+            _gasStationContext.GasStations.Remove(gasStation);
+
+            _gasStationContext.SaveChanges();
         }
     }
 }

@@ -43,7 +43,7 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </TabControl.Resources>
-            <TabItem Header="База данных" Template="{StaticResource TabItemTemplate}">
+            <TabItem Header="Просмотр базы данных" Template="{StaticResource TabItemTemplate}">
                 <views:ShowDb/>
             </TabItem>
             <TabItem Header="Добавление в базу данных" Template="{StaticResource TabItemTemplate}">

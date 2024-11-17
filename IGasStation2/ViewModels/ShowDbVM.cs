@@ -24,7 +24,9 @@ namespace IGasStation2.ViewModels
         private string _currentPowerForSearch = String.Empty;
         private string _powerDiselGeneratorForSearch = String.Empty;
         private string _typeAndPowerForSearch = String.Empty;
-        private IEnumerable<GasStation> _gasStations;
+
+        private List<GasStation> _gasStations;
+        private GasStation _selectedGasStation;
 
         public string NameForSearch 
         {
@@ -66,11 +68,23 @@ namespace IGasStation2.ViewModels
             get => _typeAndPowerForSearch;
             set => SetProperty(ref _typeAndPowerForSearch, value);
         }
-        public IEnumerable<GasStation> GasStations
+
+        public List<GasStation> GasStations
         {
             get => _gasStations;
             set => SetProperty(ref _gasStations, value);
         }
+        public GasStation SelectedGasStation
+        {
+            get => _selectedGasStation;
+            set 
+            { 
+                SetProperty(ref _selectedGasStation, value);
+                OnPropertyChanged(nameof(IsEnabled));
+            }
+        }
+
+        public bool IsEnabled => SelectedGasStation != null;
 
         public ShowDbVM(GasStationUtil gasStationUtil) 
         {
@@ -78,6 +92,7 @@ namespace IGasStation2.ViewModels
 
             SearchClick = new AsyncCommand(OnSearchClick);
             ClearClick = new AsyncCommand(OnClearClick);
+            RemoveClick = new AsyncCommand(OnRemoveClick);
 
             GasStations = _gasStationUtil.GetGasStations(
                 NameForSearch,
@@ -123,5 +138,17 @@ namespace IGasStation2.ViewModels
         }
 
         public ICommand ClearClick { get; }
+
+        private Task OnRemoveClick(object param)
+        {
+            _gasStationUtil.RemoveGasStation(_selectedGasStation);
+
+            GasStations.Remove(_selectedGasStation);
+            GasStations = GasStations;
+
+            return Task.CompletedTask;
+        }
+
+        public ICommand RemoveClick { get; }
     }
 }
