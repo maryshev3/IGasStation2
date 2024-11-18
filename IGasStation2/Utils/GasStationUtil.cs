@@ -127,5 +127,37 @@ namespace IGasStation2.Utils
 
             _gasStationContext.SaveChanges();
         }
+
+        public void InsertGasStation(
+            string name,
+            string location,
+            string coordinates,
+            string phoneNumber,
+            string email,
+            string allowedPower,
+            string currentPower,
+            string powerDiselGenerator,
+            string typeAndPower,
+            string note
+        )
+        {
+            GasStation newGasStation = new GasStation()
+            {
+                CompanyName = name,
+                Location = location,
+                Coordinates = coordinates,
+                PhoneNumber = phoneNumber,
+                Email = email,
+                AllowedPower = Convert.ToInt32(allowedPower),
+                CurrentPower = Convert.ToInt32(currentPower),
+                PowerDiselGenerator = String.IsNullOrWhiteSpace(powerDiselGenerator) ? null : Convert.ToInt32(powerDiselGenerator),
+                TypeAndPower = typeAndPower,
+                Note = note
+            };
+
+            _gasStationContext.Add(newGasStation);
+
+            _gasStationContext.SaveChanges();
+        }
     }
 }

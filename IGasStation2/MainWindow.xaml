@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:IGasStation2.Views"
         mc:Ignorable="d"
         Title="АЗС"
-        Height="550"
+        Height="600"
         Width="1400">
     <Grid Background="#fdfdff">
         <TabControl TabStripPlacement="Left" Background="{DynamicResource BackgroundSecondColor}">
@@ -47,7 +47,7 @@
                 <views:ShowDb/>
             </TabItem>
             <TabItem Header="Добавление в базу данных" Template="{StaticResource TabItemTemplate}">
-                Текст2
+                <views:AddToDb/>
             </TabItem>
             <TabItem Header="Ранговый анализ" Template="{StaticResource TabItemTemplate}">
                 Текст3

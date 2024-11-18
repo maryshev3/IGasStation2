@@ -21,6 +21,7 @@ namespace IGasStation2.ViewModels
 
         public ShowDbVM ShowDbVM => _serviceProvider.GetRequiredService<ShowDbVM>();
         public ShowCardVM ShowCardVM => _serviceProvider.GetRequiredService<ShowCardVM>();
+        public AddToDbVM AddToDbVM => _serviceProvider.GetRequiredService<AddToDbVM>();
 
         private static void InitConfiguration(IServiceCollection services)
         {
@@ -60,6 +61,7 @@ namespace IGasStation2.ViewModels
 
             services.AddSingleton<ShowDbVM>();
             services.AddSingleton<ShowCardVM>();
+            services.AddSingleton<AddToDbVM>();
 
             services.AddSingleton<IServiceProvider, ServiceProvider>(_ => _serviceProvider);
 
