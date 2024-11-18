@@ -17,9 +17,9 @@
         </Grid.ColumnDefinitions>
         
         <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10">
-            <Label Content="Построить ранговый анализ на основе:" FontSize="14"/>
-            <ComboBox ItemsSource="{Binding Path=AnalyzeTypes}" FontSize="14" SelectedItem="{Binding Path=SelectedAnalyzeType}"/>
-            <components:LabelAndTextBox ControlLabelContent="Год" ControlTextBoxText="{Binding Path=YearText, Mode=TwoWay}" Visibility="{Binding Path=VisibilityYear}"/>
+            <Label Content="Построить ранговый анализ на основе:" FontSize="16"/>
+            <ComboBox ItemsSource="{Binding Path=AnalyzeTypes}" FontSize="16" SelectedItem="{Binding Path=SelectedAnalyzeType}" HorizontalAlignment="Center" MinWidth="300" Margin="0, 10, 0, 10"/>
+            <components:LabelAndTextBox ControlLabelContent="Год" ControlTextBoxText="{Binding Path=YearText, Mode=TwoWay}" Visibility="{Binding Path=VisibilityYear}" Margin="0, 10, 0, 10"/>
             <Button Name="CheckNormallyButton" Content="Проверить на нормированность" Command="{Binding Path=CheckNormallyClick}" Template="{DynamicResource ResourceKey=RoundedButton}"/>
             <Button Name="AnalyzeButton" Content="Анализировать" Template="{DynamicResource ResourceKey=RoundedButton}" Click="AnalyzeButton_Click" Width="{Binding ElementName=CheckNormallyButton, Path=ActualWidth}"/>
         </StackPanel>
@@ -30,17 +30,17 @@
             <TabItem Header="Отчёт" Template="{DynamicResource TabItemTemplateVertical}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical" Margin="10">
-                        <Label Content="АЗС с низким потреблением электроэнергии" FontSize="14"/>
+                        <Label Content="АЗС с низким потреблением электроэнергии" FontSize="16"/>
                         <DataGrid MinWidth="400" MinHeight="400" ItemsSource="{Binding Path=LowUsing}" Style="{DynamicResource DataGridStyle}"/>
-                        <Label Content="АЗС с высоким потреблением электроэнергии" FontSize="14"/>
+                        <Label Content="АЗС с высоким потреблением электроэнергии" FontSize="16"/>
                         <DataGrid MinWidth="400" MinHeight="400" ItemsSource="{Binding Path=HighUsing}" Style="{DynamicResource DataGridStyle}"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Грубые погрешности" Template="{DynamicResource TabItemTemplateVertical}">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="{Binding Path=SetNormallyType}" FontSize="14"/>
-                    <Label Content="{Binding Path=DeleteHelpType}" Visibility="{Binding Path=SetNormallyFieldVisibility}" FontSize="14"/>
+                    <Label Content="{Binding Path=SetNormallyType}" FontSize="16"/>
+                    <Label Content="{Binding Path=DeleteHelpType}" Visibility="{Binding Path=SetNormallyFieldVisibility}" FontSize="16"/>
                     <DataGrid Visibility="{Binding Path=BadDataGasStationVisibility}" ItemsSource="{Binding Path=BadDataGasStation}"  Style="{DynamicResource DataGridStyle}"/>
                     <DataGrid Visibility="{Binding Path=BadDataPowerUsingsVisibility}" ItemsSource="{Binding Path=BadDataGasStationPowerUsing}"  Style="{DynamicResource DataGridStyle}"/>
                     <Button Content="Удалить все записи" Visibility="{Binding Path=DeleteToNormallyFieldVisibility}" Template="{DynamicResource ResourceKey=RoundedButton}"/>

@@ -90,7 +90,7 @@
                 ContentSource="Header"
                 RecognizesAccessKey="True"
                 TextBlock.Foreground="{DynamicResource ForegroundMain}"
-                TextBlock.FontSize="16"/>
+                TextBlock.FontSize="18"/>
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
