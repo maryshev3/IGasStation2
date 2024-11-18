@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics.Distributions;
+using ScottPlot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,6 +176,48 @@ namespace IGasStation2.Utils
             bool isHelp = IsDataNormalized(currentItems);
 
             return (badData, isHelp);
+        }
+
+        public (double a, double b) CalculateAB(IEnumerable<(int x, double y)> xyValues)
+        {
+            IEnumerable<(double X, double Y)> updatedXYValues = xyValues.Select(x => (Math.Log(x.x), Math.Log(x.y)));
+
+            //Находим дельты
+            double d0 = updatedXYValues.Count() * updatedXYValues.Sum(x => x.X * x.X) - updatedXYValues.Sum(x => x.X) * updatedXYValues.Sum(x => x.X);
+            double d1 = updatedXYValues.Count() * updatedXYValues.Sum(x => x.X * x.Y) - updatedXYValues.Sum(x => x.X) * updatedXYValues.Sum(x => x.Y);
+            double d2 = updatedXYValues.Sum(x => x.X * x.X) * updatedXYValues.Sum(x => x.Y) - updatedXYValues.Sum(x => x.X * x.Y) * updatedXYValues.Sum(x => x.X);
+
+            //Находим C и D
+            double c = d1 / d0;
+            double d = d2 / d0;
+
+            //Находим a и b
+            double a = Math.Exp(d);
+            double b = -1 * c;
+
+            return (a, b);
+        }
+
+        public IEnumerable<(int x, double y)> CalculateAllowedIterval(IEnumerable<(int x, double y)> xyValues, Coordinates[] xyApproximatelyValues, Boolean isPlusDelta)
+        {
+            List<(int x, double y)> deltas = new();
+
+            var xyApproxValuesInterval = xyApproximatelyValues.ToList();
+            var xyValuesInterval = xyValues.ToList();
+
+            List<(int x, double y)> diffs = new();
+            for (int i = 0; i < xyValues.Count(); i++)
+            {
+                diffs.Add(((int)xyApproxValuesInterval[i].X, Math.Abs(xyApproxValuesInterval[i].Y - xyValuesInterval[i].y)));
+            }
+
+            double sum = diffs.Sum(y => Math.Pow((y.y - diffs.Average(x => x.y)), 2));
+            double delta =
+                Math.Sqrt(sum / (xyValues.Count() - 1)) / 1.96;
+
+            return isPlusDelta
+                ? xyApproxValuesInterval.Select(x => ((int)x.X, x.Y + delta))
+                : xyApproxValuesInterval.Select(x => ((int)x.X, x.Y - delta));
         }
     }
 }

@@ -2,6 +2,7 @@
 using IGasStation2.EntityFrameworkContexts;
 using IGasStation2.Models;
 using IGasStation2.Utils;
+using ScottPlot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace IGasStation2.ViewModels
         private string _deleteHelpType = Constants.DeleteToNormallyWillNotHelp;
         private List<GasStation> _badDataGasStation;
         private List<GasStationPowerUsing> _badDataGasStationPowerUsing;
+        private List<GasStation> _highUsing;
+        private List<GasStation> _lowUsing;
 
         public string[] AnalyzeTypes { get; } =
         {
@@ -61,6 +64,17 @@ namespace IGasStation2.ViewModels
             {
                 SetProperty(ref _badDataGasStation, value);
             }
+        }
+
+        public List<GasStation> HighUsing
+        {
+            get => _highUsing;
+            set => SetProperty(ref _highUsing, value);
+        }
+        public List<GasStation> LowUsing
+        {
+            get => _lowUsing;
+            set => SetProperty(ref _lowUsing, value);
         }
 
         public List<GasStationPowerUsing> BadDataGasStationPowerUsing
@@ -123,16 +137,24 @@ namespace IGasStation2.ViewModels
                 : Visibility.Collapsed;
         }
 
+        public Coordinates[] XYValuesForApproximatelyCurve { get; set; }
+        public Coordinates[] XYValuesCurve { get; set; }
+        public Coordinates[] XYAllowedPlusDeltaCurve { get; set; }
+        public Coordinates[] XYAllowedMinusDeltaCurve { get; set; }
+
         public AnalyzeVM(GasStationContext gasStationContext, NormalizeChecker normalizeChecker) 
         {
             _gasStationContext = gasStationContext;
             _normalizeChecker = normalizeChecker;
 
             CheckNormallyClick = new AsyncCommand(OnCheckNormallyClick);
+            AnalyzeClick = new ActionCommand(OnAnalyzeClick);
         }
 
         private Task OnCheckNormallyClick(object param) 
         {
+            MessageBox.Show("Смотрите результат во вкладке \"Грубые погрешности\"");
+
             //Тут проверка на нормированность
             if (SelectedAnalyzeType == Constants.PowerUsagePerYear && String.IsNullOrWhiteSpace(YearText))
             {
@@ -211,5 +233,76 @@ namespace IGasStation2.ViewModels
         }
 
         public ICommand CheckNormallyClick { get; }
+
+        private void OnAnalyzeClick(object param) 
+        {
+            MessageBox.Show("Смотрите результат во вкладках \"График\" и \"Отчёт\"");
+
+            if (SelectedAnalyzeType == Constants.PowerUsagePerYear && String.IsNullOrWhiteSpace(YearText))
+            {
+                MessageBox.Show("Не введено значение для года, по которому проводится анализ");
+                return;
+            }
+
+            IEnumerable<(int x, double y)> xyValues = new List<(int x, double y)>();
+            Dictionary<int, GasStation> gasStationsMap = new();
+
+            if (SelectedAnalyzeType == Constants.PowerUsagePerYear)
+            {
+                int year;
+                Boolean isNumeric = int.TryParse(YearText, out year);
+
+                if (!isNumeric)
+                {
+                    MessageBox.Show("Введённый год не является числом");
+                    return;
+                }
+
+                gasStationsMap = _gasStationContext.GasStationPowerUsings.Where(x => x.Year == year).AsEnumerable().OrderByDescending(x => x.PowerUsing).Select((x, index) => (index + 1, x.GasStation)).ToDictionary(x => x.Item1, x => x.GasStation);
+
+                xyValues = _gasStationContext.GasStationPowerUsings.Where(x => x.Year == year).AsEnumerable().OrderByDescending(x => x.PowerUsing).Select((x, index) => (index + 1, Convert.ToDouble(x.PowerUsing)));
+            }
+            if (SelectedAnalyzeType == Constants.CurrentPower)
+            {
+                gasStationsMap = _gasStationContext.GasStations.AsEnumerable().OrderByDescending(x => x.CurrentPower).Select((x, index) => (index + 1, x)).ToDictionary(x => x.Item1, x => x.x);
+                xyValues = _gasStationContext.GasStations.AsEnumerable().OrderByDescending(x => x.CurrentPower).Select((x, index) => (index + 1, Convert.ToDouble(x.CurrentPower)));
+            }
+            if (SelectedAnalyzeType == Constants.AllowedPower)
+            {
+                gasStationsMap = _gasStationContext.GasStations.AsEnumerable().OrderByDescending(x => x.AllowedPower).Select((x, index) => (index + 1, x)).ToDictionary(x => x.Item1, x => x.x);
+                xyValues = _gasStationContext.GasStations.AsEnumerable().OrderByDescending(x => x.AllowedPower).Select((x, index) => (index + 1, Convert.ToDouble(x.AllowedPower)));
+            }
+
+            //Формируем доверительные интервалы
+
+
+            var ab = _normalizeChecker.CalculateAB(xyValues);
+            XYValuesForApproximatelyCurve = xyValues.Select(x => new Coordinates(x.x, ab.a / Math.Pow(x.x, ab.b))).ToArray();
+            XYValuesCurve = xyValues.Select(x => new Coordinates(x.x, x.y)).ToArray();
+            XYAllowedPlusDeltaCurve = _normalizeChecker.CalculateAllowedIterval(xyValues, XYValuesForApproximatelyCurve, true).Select(x => new Coordinates(x.x, x.y)).ToArray();
+            XYAllowedMinusDeltaCurve = _normalizeChecker.CalculateAllowedIterval(xyValues, XYValuesForApproximatelyCurve, false).Select(x => new Coordinates(x.x, x.y)).ToArray();
+
+            //Находим данные для отчёта
+            List<GasStation> highUsing = new();
+            for (int i = 0; i < XYValuesCurve.Length; i++)
+            {
+                if (XYValuesCurve[i].Y > XYAllowedPlusDeltaCurve[i].Y)
+                    highUsing.Add(gasStationsMap[(int)XYValuesCurve[i].X]);
+            }
+
+            List<GasStation> lowUsing = new();
+            for (int i = 0; i < XYValuesCurve.Length; i++)
+            {
+                if (XYValuesCurve[i].Y < XYAllowedMinusDeltaCurve[i].Y)
+                    lowUsing.Add(gasStationsMap[(int)XYValuesCurve[i].X]);
+            }
+
+            HighUsing = highUsing;
+            LowUsing = lowUsing;
+
+            return;
+        }
+
+        public ICommand AnalyzeClick { get; }
     }
 }
