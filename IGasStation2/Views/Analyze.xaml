@@ -18,7 +18,7 @@
         
         <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10">
             <Label Content="Построить ранговый анализ на основе:" FontSize="16"/>
-            <ComboBox ItemsSource="{Binding Path=AnalyzeTypes}" FontSize="16" SelectedItem="{Binding Path=SelectedAnalyzeType}" HorizontalAlignment="Center" MinWidth="300" Margin="0, 10, 0, 10"/>
+            <ComboBox ItemsSource="{Binding Path=AnalyzeTypes}" FontSize="16" SelectedItem="{Binding Path=SelectedAnalyzeType}" HorizontalAlignment="Center" MinWidth="300" Margin="0, 10, 0, 10" Padding="6" VerticalContentAlignment="Center"/>
             <components:LabelAndTextBox ControlLabelContent="Год" ControlTextBoxText="{Binding Path=YearText, Mode=TwoWay}" Visibility="{Binding Path=VisibilityYear}" Margin="0, 10, 0, 10"/>
             <Button Name="CheckNormallyButton" Content="Проверить на нормированность" Command="{Binding Path=CheckNormallyClick}" Template="{DynamicResource ResourceKey=RoundedButton}"/>
             <Button Name="AnalyzeButton" Content="Анализировать" Template="{DynamicResource ResourceKey=RoundedButton}" Click="AnalyzeButton_Click" Width="{Binding ElementName=CheckNormallyButton, Path=ActualWidth}"/>

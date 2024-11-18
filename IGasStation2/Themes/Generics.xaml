@@ -41,7 +41,26 @@
     <Style x:Key="DataGridStyle" TargetType="DataGrid">
         <Style.Setters>
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="AlternatingRowBackground" Value="{DynamicResource BackgroundHoveredMain}"/>
+            <Setter Property="IsReadOnly" Value="True"/>
         </Style.Setters>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="DataGridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border x:Name="border" Padding="5">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ForegroundSelectedMain}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <ControlTemplate x:Key="TabItemTemplate" TargetType="TabItem">
