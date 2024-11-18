@@ -22,6 +22,7 @@ namespace IGasStation2.ViewModels
         public ShowDbVM ShowDbVM => _serviceProvider.GetRequiredService<ShowDbVM>();
         public ShowCardVM ShowCardVM => _serviceProvider.GetRequiredService<ShowCardVM>();
         public AddToDbVM AddToDbVM => _serviceProvider.GetRequiredService<AddToDbVM>();
+        public AnalyzeVM AnalyzeVM => _serviceProvider.GetRequiredService<AnalyzeVM>();
 
         private static void InitConfiguration(IServiceCollection services)
         {
@@ -58,10 +59,12 @@ namespace IGasStation2.ViewModels
 
             services.AddSingleton<GasStationUtil>();
             services.AddSingleton<PowerUsingPredicter>();
+            services.AddSingleton<NormalizeChecker>();
 
             services.AddSingleton<ShowDbVM>();
             services.AddSingleton<ShowCardVM>();
             services.AddSingleton<AddToDbVM>();
+            services.AddSingleton<AnalyzeVM>();
 
             services.AddSingleton<IServiceProvider, ServiceProvider>(_ => _serviceProvider);
 
