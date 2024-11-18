@@ -5,40 +5,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IGasStation2.Views"
              xmlns:components="clr-namespace:IGasStation2.Components"
+             xmlns:viewmodels="clr-namespace:IGasStation2.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ShowDbVM}"
+             DataContext="{Binding ShowDbVM, Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5" />
-                </Style>
-            </Style.Resources>
-        </Style>
-    </UserControl.Resources>
-    <StackPanel Orientation="Horizontal">
-        <StackPanel>
-            <components:LabelAndTextBox ControlLabelContent="Название компании"/>
-            <components:LabelAndTextBox ControlLabelContent="Местоположение компании"/>
-            <components:LabelAndTextBox ControlLabelContent="Номер телефона компании"/>
-            <components:LabelAndTextBox ControlLabelContent="Email"/>
-            <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)"/>
-            <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)"/>
-            <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)"/>
-            <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника"/>
-            <Button Content="Поиск"/>
-            <Button Content="Очистить все"/>
-        </StackPanel>
-        <Separator BorderThickness="2" BorderBrush="{DynamicResource BorderBrushSeparator}" Margin="0, 5, 0, 5"/>
-        <StackPanel Orientation="Vertical">
-            <DataGrid Name="DbData" AutoGenerateColumns="True"/>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Добавить запись"/>
-                <Button Content="Открыть выбранную запись"/>
-                <Button Content="Удалить выбранную запись"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="0.8*"/>
+        </Grid.ColumnDefinitions>
+        <Expander ExpandDirection="Right" IsExpanded="True" Name="expanderElement" Grid.Column="0">
+            <StackPanel Name="searchStackPanel">
+                <components:LabelAndTextBox ControlLabelContent="Название компании" ControlTextBoxText="{Binding Path=NameForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Местоположение компании" ControlTextBoxText="{Binding Path=LocationForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Номер телефона компании" ControlTextBoxText="{Binding Path=PhoneNumberForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Email" ControlTextBoxText="{Binding Path=EmailForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)" ControlTextBoxText="{Binding Path=AllowedPowerForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)" ControlTextBoxText="{Binding Path=CurrentPowerForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForSearch, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForSearch, Mode=TwoWay}"/>
+                <Button Content="Поиск" Command="{Binding Path=SearchClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
+                <Button Content="Очистить все" Command="{Binding Path=ClearClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
             </StackPanel>
-        </StackPanel>
-    </StackPanel>
+        </Expander >
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="0.2*"/>
+            </Grid.RowDefinitions>
+            <DataGrid
+                Name="DbData"
+                AutoGenerateColumns="True"
+                ItemsSource="{Binding Path=GasStations}"
+                Margin="5"
+                ScrollViewer.CanContentScroll="True" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                Grid.Row="0"
+                SelectedItem="{Binding Path=SelectedGasStation}"/>
+            <WrapPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
+                <Button Name="OpenSelectedGasStation" Content="Открыть выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Click="OpenSelectedGasStation_Click" Style="{DynamicResource ResourceKey=RoundedButton}"/>
+                <Button Content="Удалить выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=RemoveClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
+            </WrapPanel>
+        </Grid>
+    </Grid>
 </UserControl>
