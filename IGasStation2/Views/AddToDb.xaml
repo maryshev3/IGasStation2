@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="IGasStation2.Views.AddToDb"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IGasStation2.Views"
+             xmlns:components="clr-namespace:IGasStation2.Components"
+             xmlns:viewmodels="clr-namespace:IGasStation2.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AddToDbVM}"
+             DataContext="{Binding AddToDbVM, Source={StaticResource ViewModelLocator}}"
+             mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Grid.Row="0">
+                <components:LabelAndTextBox ControlLabelContent="Название компании" ControlTextBoxText="{Binding Path=NameForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Местоположение компании" ControlTextBoxText="{Binding Path=LocationForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Координаты компании" ControlTextBoxText="{Binding Path=CoordinatesForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Номер телефона компании" ControlTextBoxText="{Binding Path=PhoneNumberForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Email" ControlTextBoxText="{Binding Path=EmailForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)" ControlTextBoxText="{Binding Path=AllowedPowerForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)" ControlTextBoxText="{Binding Path=CurrentPowerForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForInsert, Mode=TwoWay}"/>
+                <components:LabelAndTextBox ControlLabelContent="Примечание" ControlTextBoxText="{Binding Path=NoteForInsert, Mode=TwoWay}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <Button Content="Добавить запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=InsertGasStationClick}" Grid.Row="1"/>
+    </Grid>
+</UserControl>
