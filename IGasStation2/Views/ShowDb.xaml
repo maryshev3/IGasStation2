@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:ShowDbVM}"
              DataContext="{Binding ShowDbVM, Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
-    <Grid>
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="0.8*"/>

@@ -50,7 +50,7 @@
                 <views:AddToDb/>
             </TabItem>
             <TabItem Header="Ранговый анализ" Template="{StaticResource TabItemTemplate}">
-                Текст3
+                <views:Analyze/>
             </TabItem>
             <TabItem Header="О программе" Template="{StaticResource TabItemTemplate}">
                 Текст4
