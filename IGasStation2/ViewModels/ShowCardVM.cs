@@ -14,6 +14,7 @@ namespace IGasStation2.ViewModels
     public class ShowCardVM : ViewModelBase
     {
         private readonly GasStationUtil _gasStationUtil;
+        private readonly PowerUsingPredicter _powerUsingPredicter;
 
         private GasStation _gasStation;
         private List<GasStationPowerUsing> _gasStationPowerUsings;
@@ -135,9 +136,10 @@ namespace IGasStation2.ViewModels
 
         public bool IsEnabled => SelectedGasStationPowerUsing != null;
 
-        public ShowCardVM(GasStationUtil gasStationUtil) 
+        public ShowCardVM(GasStationUtil gasStationUtil, PowerUsingPredicter powerUsingPredicter) 
         {
             _gasStationUtil = gasStationUtil;
+            _powerUsingPredicter = powerUsingPredicter;
 
             EditGasStationClick = new AsyncCommand(OnEditGasStationClick);
             MergePowerUsingClick = new AsyncCommand(OnMergePowerUsingClick);

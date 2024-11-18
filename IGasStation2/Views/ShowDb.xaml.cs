@@ -50,6 +50,8 @@ namespace IGasStation2.Views
             _showCardVM.GasStation = _showDbVM.SelectedGasStation;
             _showCardVM.GasStationPowerUsings = _gasStationUtil.GetPowerUsings(_showDbVM.SelectedGasStation);
 
+            _showCard.Init(_showCardVM.GasStationPowerUsings, 0);
+
             _showCardWindow = new Window
             {
                 //Icon = _icon,

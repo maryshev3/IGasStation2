@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:IGasStation2.Views"
              xmlns:components="clr-namespace:IGasStation2.Components"
              xmlns:viewmodels="clr-namespace:IGasStation2.ViewModels"
+             xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
              d:DataContext="{d:DesignInstance Type=viewmodels:ShowCardVM}"
              DataContext="{Binding ShowCardVM, Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d">
@@ -37,8 +38,22 @@
                     <components:LabelAndTextBox ControlLabelContent="Потребление" ControlTextBoxText="{Binding Path=PowerUsingForEdit, Mode=TwoWay}"/>
                     <Button Content="Добавить/изменить энергопотребление" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=MergePowerUsingClick}"/>
                     <Button Content="Удалить выбранную запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=RemovePowerUsingClick}" IsEnabled="{Binding Path=IsEnabled}"/>
-                    <Button Content="Спрогнозировать потребление" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path}"/>
                 </StackPanel>
+            </TabItem>
+            <TabItem Header="Прогноз энергопотребления">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ScottPlot:WpfPlot x:Name="PowerUsingPlot" Margin="10" MinWidth="400" MinHeight="400" Grid.Row="0"/>
+                    <Button Name="PredictButton" Content="Спрогнозировать потребление" Style="{DynamicResource ResourceKey=RoundedButton}" Click="PredictButton_Click" Margin="10" Grid.Row="1"/>
+                </Grid>
+                <!--<StackPanel Orientation="Vertical" Margin="5">
+                    <ScottPlot:WpfPlot x:Name="PowerUsingPlot" Margin="10" MinWidth="400" MinHeight="400"/>
+                    <Button Name="PredictButton" Content="Спрогнозировать потребление" Style="{DynamicResource ResourceKey=RoundedButton}" Click="PredictButton_Click" Margin="10"/>
+                </StackPanel>-->
             </TabItem>
         </TabControl>
     </Grid>

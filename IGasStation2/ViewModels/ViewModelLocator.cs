@@ -56,6 +56,7 @@ namespace IGasStation2.ViewModels
             AddDbContext(services);
 
             services.AddSingleton<GasStationUtil>();
+            services.AddSingleton<PowerUsingPredicter>();
 
             services.AddSingleton<ShowDbVM>();
             services.AddSingleton<ShowCardVM>();
