@@ -15,20 +15,32 @@
             <ColumnDefinition Width="0.8*"/>
         </Grid.ColumnDefinitions>
         <Expander ExpandDirection="Right" IsExpanded="True" Name="expanderElement" Grid.Column="0">
-            <StackPanel Name="searchStackPanel">
-                <components:LabelAndTextBox ControlLabelContent="Название компании" ControlTextBoxText="{Binding Path=NameForSearch, Mode=TwoWay}"/>
-                <components:LabelAndTextBox ControlLabelContent="Местоположение компании" ControlTextBoxText="{Binding Path=LocationForSearch, Mode=TwoWay}"/>
-                <components:LabelAndTextBox ControlLabelContent="Номер телефона компании" ControlTextBoxText="{Binding Path=PhoneNumberForSearch, Mode=TwoWay}"/>
-                <components:LabelAndTextBox ControlLabelContent="Email" ControlTextBoxText="{Binding Path=EmailForSearch, Mode=TwoWay}"/>
-                <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)" ControlTextBoxText="{Binding Path=AllowedPowerForSearch, Mode=TwoWay}"/>
-                <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)" ControlTextBoxText="{Binding Path=CurrentPowerForSearch, Mode=TwoWay}"/>
-                <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForSearch, Mode=TwoWay}"/>
-                <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForSearch, Mode=TwoWay}"/>
-                <Button Content="Поиск" Command="{Binding Path=SearchClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
-                <Button Content="Очистить все" Command="{Binding Path=ClearClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
-            </StackPanel>
+            <Grid Name="searchStackPanel">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <components:LabelAndTextBox ControlLabelContent="Название компании" ControlTextBoxText="{Binding Path=NameForSearch, Mode=TwoWay}" Grid.Row="0"/>
+                <components:LabelAndTextBox ControlLabelContent="Местоположение компании" ControlTextBoxText="{Binding Path=LocationForSearch, Mode=TwoWay}" Grid.Row="1"/>
+                <components:LabelAndTextBox ControlLabelContent="Номер телефона компании" ControlTextBoxText="{Binding Path=PhoneNumberForSearch, Mode=TwoWay}" Grid.Row="2"/>
+                <components:LabelAndTextBox ControlLabelContent="Email" ControlTextBoxText="{Binding Path=EmailForSearch, Mode=TwoWay}" Grid.Row="3"/>
+                <components:LabelAndTextBox ControlLabelContent="Разрешенная к использованию мощность (кВт)" ControlTextBoxText="{Binding Path=AllowedPowerForSearch, Mode=TwoWay}" Grid.Row="4"/>
+                <components:LabelAndTextBox ControlLabelContent="Установленная мощность (кВт)" ControlTextBoxText="{Binding Path=CurrentPowerForSearch, Mode=TwoWay}" Grid.Row="5"/>
+                <components:LabelAndTextBox ControlLabelContent="Мощность дизельгенератора (кВт)" ControlTextBoxText="{Binding Path=PowerDiselGeneratorForSearch, Mode=TwoWay}" Grid.Row="6"/>
+                <components:LabelAndTextBox ControlLabelContent="Вид и мощность доп. резервного источника" ControlTextBoxText="{Binding Path=TypeAndPowerForSearch, Mode=TwoWay}" Grid.Row="7"/>
+                <Button Content="Поиск" Command="{Binding Path=SearchClick}" Template="{DynamicResource ResourceKey=RoundedButton}" Grid.Row="8"/>
+                <Button Content="Очистить все" Command="{Binding Path=ClearClick}" Template="{DynamicResource ResourceKey=RoundedButton}" Grid.Row="9"/>
+            </Grid>
         </Expander >
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Margin="10, 0, 0, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.8*"/>
                 <RowDefinition Height="0.2*"/>
@@ -42,10 +54,11 @@
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 Grid.Row="0"
-                SelectedItem="{Binding Path=SelectedGasStation}"/>
+                SelectedItem="{Binding Path=SelectedGasStation}"
+                Style="{DynamicResource DataGridStyle}"/>
             <WrapPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
-                <Button Name="OpenSelectedGasStation" Content="Открыть выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Click="OpenSelectedGasStation_Click" Style="{DynamicResource ResourceKey=RoundedButton}"/>
-                <Button Content="Удалить выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=RemoveClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
+                <Button Name="OpenSelectedGasStation" Content="Открыть выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Click="OpenSelectedGasStation_Click" Template="{DynamicResource ResourceKey=RoundedButton}"/>
+                <Button Content="Удалить выбранную запись" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=RemoveClick}" Template="{DynamicResource ResourceKey=RoundedButton}"/>
             </WrapPanel>
         </Grid>
     </Grid>

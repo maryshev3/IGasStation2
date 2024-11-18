@@ -5,17 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IGasStation2.Components"
              mc:Ignorable="d">
-    <StackPanel Orientation="Horizontal" Margin="5">
+    <UserControl.Resources>
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushMain}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="5" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Label 
             Name="ControlLabel"
             Content="{Binding Path=ControlLabelContent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
             Margin="5"
-            FontSize="14"/>
+            FontSize="16"
+            Grid.Column="0"/>
         <TextBox 
             Name="ControlTextBox"
-            Width="100"
+            Margin="5"
             Text="{Binding Path=ControlTextBoxText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-            FontSize="14"
-            VerticalContentAlignment="Center"/>
-    </StackPanel>
+            MinWidth="100"
+            FontSize="16"
+            VerticalContentAlignment="Center"
+            BorderThickness="0, 0, 0, 2"
+            BorderBrush="{DynamicResource BorderBrushSeparator}"
+            Style="{StaticResource TextBoxStyle}"
+            Grid.Column="1"/>
+    </Grid>
 </UserControl>

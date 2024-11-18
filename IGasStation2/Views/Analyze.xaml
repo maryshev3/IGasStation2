@@ -16,34 +16,34 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <StackPanel Orientation="Vertical" Grid.Column="0">
+        <StackPanel Orientation="Vertical" Grid.Column="0" Margin="10">
             <Label Content="Построить ранговый анализ на основе:" FontSize="14"/>
             <ComboBox ItemsSource="{Binding Path=AnalyzeTypes}" FontSize="14" SelectedItem="{Binding Path=SelectedAnalyzeType}"/>
             <components:LabelAndTextBox ControlLabelContent="Год" ControlTextBoxText="{Binding Path=YearText, Mode=TwoWay}" Visibility="{Binding Path=VisibilityYear}"/>
-            <Button Content="Проверить на нормированность" Command="{Binding Path=CheckNormallyClick}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
-            <Button Name="AnalyzeButton" Content="Анализировать" Style="{DynamicResource ResourceKey=RoundedButton}" Click="AnalyzeButton_Click"/>
+            <Button Name="CheckNormallyButton" Content="Проверить на нормированность" Command="{Binding Path=CheckNormallyClick}" Template="{DynamicResource ResourceKey=RoundedButton}"/>
+            <Button Name="AnalyzeButton" Content="Анализировать" Template="{DynamicResource ResourceKey=RoundedButton}" Click="AnalyzeButton_Click" Width="{Binding ElementName=CheckNormallyButton, Path=ActualWidth}"/>
         </StackPanel>
         <TabControl Grid.Column="1">
-            <TabItem Header="График">
+            <TabItem Header="График" Template="{DynamicResource TabItemTemplateVertical}">
                 <ScottPlot:WpfPlot x:Name="NormallyPlot" Margin="10" MinWidth="400" MinHeight="400"/>
             </TabItem>
-            <TabItem Header="Отчёт">
+            <TabItem Header="Отчёт" Template="{DynamicResource TabItemTemplateVertical}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical" Margin="10">
                         <Label Content="АЗС с низким потреблением электроэнергии" FontSize="14"/>
-                        <DataGrid MinWidth="400" MinHeight="400" ItemsSource="{Binding Path=LowUsing}"/>
+                        <DataGrid MinWidth="400" MinHeight="400" ItemsSource="{Binding Path=LowUsing}" Style="{DynamicResource DataGridStyle}"/>
                         <Label Content="АЗС с высоким потреблением электроэнергии" FontSize="14"/>
-                        <DataGrid MinWidth="400" MinHeight="400" ItemsSource="{Binding Path=HighUsing}"/>
+                        <DataGrid MinWidth="400" MinHeight="400" ItemsSource="{Binding Path=HighUsing}" Style="{DynamicResource DataGridStyle}"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Грубые погрешности">
+            <TabItem Header="Грубые погрешности" Template="{DynamicResource TabItemTemplateVertical}">
                 <StackPanel Orientation="Vertical">
                     <Label Content="{Binding Path=SetNormallyType}" FontSize="14"/>
                     <Label Content="{Binding Path=DeleteHelpType}" Visibility="{Binding Path=SetNormallyFieldVisibility}" FontSize="14"/>
-                    <DataGrid Visibility="{Binding Path=BadDataGasStationVisibility}" ItemsSource="{Binding Path=BadDataGasStation}" FontSize="14"/>
-                    <DataGrid Visibility="{Binding Path=BadDataPowerUsingsVisibility}" ItemsSource="{Binding Path=BadDataGasStationPowerUsing}" FontSize="14"/>
-                    <Button Content="Удалить все записи" Visibility="{Binding Path=DeleteToNormallyFieldVisibility}" Style="{DynamicResource ResourceKey=RoundedButton}"/>
+                    <DataGrid Visibility="{Binding Path=BadDataGasStationVisibility}" ItemsSource="{Binding Path=BadDataGasStation}"  Style="{DynamicResource DataGridStyle}"/>
+                    <DataGrid Visibility="{Binding Path=BadDataPowerUsingsVisibility}" ItemsSource="{Binding Path=BadDataGasStationPowerUsing}"  Style="{DynamicResource DataGridStyle}"/>
+                    <Button Content="Удалить все записи" Visibility="{Binding Path=DeleteToNormallyFieldVisibility}" Template="{DynamicResource ResourceKey=RoundedButton}"/>
                 </StackPanel>
             </TabItem>
         </TabControl>

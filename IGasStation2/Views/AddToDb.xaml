@@ -28,6 +28,6 @@
                 <components:LabelAndTextBox ControlLabelContent="Примечание" ControlTextBoxText="{Binding Path=NoteForInsert, Mode=TwoWay}"/>
             </StackPanel>
         </ScrollViewer>
-        <Button Content="Добавить запись" Style="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=InsertGasStationClick}" Grid.Row="1"/>
+        <Button Content="Добавить запись" Template="{DynamicResource ResourceKey=RoundedButton}" Command="{Binding Path=InsertGasStationClick}" Grid.Row="1"/>
     </Grid>
 </UserControl>
